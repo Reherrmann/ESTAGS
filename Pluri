@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Agentes de IA">
+    <meta name="theme-color" content="#6366f1">
+    
+    <title>Agentes de IA - Plataforma Inteligente</title>
+    
+    <!-- Manifest for PWA -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFnZW50ZXMgZGUgSUEiLAogICJzaG9ydF9uYW1lIjogIkFnZW50ZXMgZGUgSUEiLAogICJkZXNjcmlwdGlvbiI6ICJQbGF0YWRvcm1hIGRlIGFnZW50ZXMgZGUgSUEgZXNwZWNpYWxpemFkb3MiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2Y4ZmFmYyIsCiAgInRoZW1lX2NvbG9yIjogIiM2MzY2ZjEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiaHR0cHM6Ly9pY29ucy5pY29uczguY29tL25hdHVyYWwvMTI4LzAwMC9mYV9yb2NrZXQucG5nIiwKICAgICAgInNpemVzIjogIjEyOHgxMjgiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImh0dHBzOi8vaWNvbnMuaWNvbnM4LmNvbS9uYXR1cmFsLzI1Ni8wMDAvZmFfcm9ja2V0LnBuZyIsCiAgICAgICJzaXplcyI6ICIyNTZ4MjU2IiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+    
+    <!-- iOS Icons -->
+    <link rel="apple-touch-icon" href="https://icons.icons8.com/natural/256/000/fa-robot.png">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .current-client {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--light);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .current-client i {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            -webkit-appearance: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        /* Clients Section */
+        .clients {
+            padding: 60px 0;
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .clients-container {
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+        }
+
+        .clients-sidebar {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .add-client-form {
+            margin-bottom: 20px;
+        }
+
+        .add-client-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            -webkit-appearance: none;
+        }
+
+        .clients-list {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .client-item {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .client-item:hover {
+            background-color: white;
+        }
+
+        .client-item.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .client-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .client-item-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .client-item.active .client-item-actions button {
+            color: white;
+        }
+
+        .client-details {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .client-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .client-header h3 {
+            font-size: 1.6rem;
+            color: var(--dark);
+        }
+
+        .client-header-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            color: var(--gray);
+        }
+
+        .client-history {
+            max-height: 250px;
+            overflow-y: auto;
+            margin-bottom: 25px;
+        }
+
+        .history-item {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: var(--light);
+            border-left: 4px solid var(--primary);
+        }
+
+        .history-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .history-item-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .history-item-agent {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .history-item-content {
+            color: var(--dark);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--light-gray);
+        }
+
+        /* Agents Section */
+        .agents {
+            padding: 60px 0;
+            background-color: var(--light);
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .agent-card {
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border: 1px solid var(--light-gray);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .agent-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .agent-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .agent-card p {
+            color: var(--gray);
+            margin-bottom: 15px;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+
+        .agent-card .btn {
+            margin-top: auto;
+        }
+
+        /* Chat Modal */
+        .chat-modal {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .chat-modal.active {
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .message.user {
+            background-color: var(--primary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.agent {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            border: 1px solid var(--light-gray);
+            border-radius: 20px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .chat-input button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Chat Button */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .chat-button:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 1001;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            max-width: 80%;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Install Prompt */
+        .install-prompt {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            right: 20px;
+            background-color: white;
+            border-radius: var(--radius);
+            padding: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 998;
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .install-prompt.show {
+            transform: translateY(0);
+        }
+
+        .install-prompt-text {
+            flex-grow: 1;
+            margin-right: 15px;
+        }
+
+        .install-prompt-text h4 {
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .install-prompt-text p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .install-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .install-dismiss {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 40px 0 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            margin-bottom: 30px;
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            
+            .hero {
+                padding: 50px 0;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>Agentes de IA</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#clients">Clientes</a></li>
+                    <li><a href="#agents">Agentes</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="current-client" id="currentClientDisplay">
+                    <i class="fas fa-user"></i>
+                    <span>Nenhum cliente selecionado</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Plataforma de Agentes de IA para Seus Clientes</h1>
+                <p>Gerencie seus clientes e utilize agentes de IA especializados para cada etapa do processo.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="document.getElementById('clients').scrollIntoView({behavior: 'smooth'})">Ver Clientes</button>
+                    <button class="btn btn-outline" onclick="document.getElementById('agents').scrollIntoView({behavior: 'smooth'})">Explorar Agentes</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Agentes de IA">
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients Section -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-header">
+                <h2>Gerenciamento de Clientes</h2>
+                <p>Adicione, visualize e gerencie seus clientes. Selecione um cliente para acessar seu histórico e conversar com os agentes.</p>
+            </div>
+            
+            <div class="clients-container">
+                <div class="clients-sidebar">
+                    <div class="add-client-form">
+                        <h3>Adicionar Cliente</h3>
+                        <input type="text" id="clientName" placeholder="Nome do cliente">
+                        <input type="text" id="clientEmail" placeholder="E-mail do cliente">
+                        <input type="text" id="clientPhone" placeholder="Telefone do cliente">
+                        <button class="btn btn-primary" style="width: 100%;" onclick="addClient()">Adicionar</button>
+                    </div>
+                    
+                    <h3>Lista de Clientes</h3>
+                    <ul class="clients-list" id="clientsList">
+                        <!-- Clientes serão adicionados aqui dinamicamente -->
+                    </ul>
+                </div>
+                
+                <div class="client-details" id="clientDetails">
+                    <div class="empty-state">
+                        <i class="fas fa-user-circle"></i>
+                        <h3>Nenhum cliente selecionado</h3>
+                        <p>Selecione um cliente da lista para ver detalhes e histórico.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agents Section -->
+    <section class="agents" id="agents">
+        <div class="container">
+            <div class="section-header">
+                <h2>Nossos Agentes Especializados</h2>
+                <p>Cada agente é treinado para executar tarefas específicas com alta precisão e eficiência</p>
+            </div>
+            
+            <div class="agents-grid">
+                <!-- Agente de Planejamento -->
+                <div class="agent-card">
+                    <div class="agent-icon" style="background-color: rgba(99, 102, 241, 0.1); color: var(--primary);">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Agente de Planejamento</h3>
+                    <p>Cria estratégias detalhadas para seus projetos, definindo objetivos, metas e cronogramas.</p>
+                    <button class="btn btn-primary" onclick="openChat('planejamento')">Conversar</button>
+                </div>
+                
+                <!-- Agente de Pesquisa -->
+                <div class="agent-card">
+                    <div class="agent-icon" style="background-color: rgba(139, 92, 246, 0.1); color: var(--secondary);">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Agente de Pesquisa</h3>
+                    <p>Realiza pesquisas aprofundadas sobre qualquer tema, coletando e organizando informações relevantes.</p>
+                    <button class="btn btn-primary" onclick="openChat('pesquisa')">Conversar</button>
+                </div>
+                
+                <!-- Agente de Criação -->
+                <div class="agent-card">
+                    <div class="agent-icon" style="background-color: rgba(236, 72, 153, 0.1); color: var(--accent);">
+                        <i class="fas fa-pen-fancy"></i>
+                    </div>
+                    <h3>Agente de Criação</h3>
+                    <p>Desenvolve conteúdo original e de alta qualidade, desde textos até imagens e vídeos.</p>
+                    <button class="btn btn-primary" onclick="openChat('criacao')">Conversar</button>
+                </div>
+                
+                <!-- Agente de Análise -->
+                <div class="agent-card">
+                    <div class="agent-icon" style="background-color: rgba(16, 185, 129, 0.1); color: var(--success);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Agente de Análise</h3>
+                    <p>Analisa dados complexos e gera insights acionáveis para tomada de decisão estratégica.</p>
+                    <button class="btn btn-primary" onclick="openChat('analise')">Conversar</button>
+                </div>
+                
+                <!-- Agente de Otimização -->
+                <div class="agent-card">
+                    <div class="agent-icon" style="background-color: rgba(245, 158, 11, 0.1); color: var(--warning);">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Agente de Otimização</h3>
+                    <p>Identifica oportunidades de melhoria e implementa otimizações em processos e resultados.</p>
+                    <button class="btn btn-primary" onclick="openChat('otimizacao')">Conversar</button>
+                </div>
+                
+                <!-- Agente de Suporte -->
+                <div class="agent-card">
+                    <div class="agent-icon" style="background-color: rgba(239, 68, 68, 0.1); color: var(--danger);">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Agente de Suporte</h3>
+                    <p>Oferece suporte contínuo, respondendo dúvidas e resolvendo problemas em tempo real.</p>
+                    <button class="btn btn-primary" onclick="openChat('suporte')">Conversar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Modal -->
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-header">
+            <h3 id="chatTitle">Agente de IA</h3>
+            <button class="chat-close" onclick="closeChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <!-- Messages will be added here dynamically -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Button -->
+    <button class="chat-button" onclick="openChat('geral')">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Install Prompt -->
+    <div class="install-prompt" id="installPrompt">
+        <div class="install-prompt-text">
+            <h4>Instalar Aplicativo</h4>
+            <p>Adicione esta aplicação à sua tela inicial para acesso rápido</p>
+        </div>
+        <button class="install-btn" id="installBtn">Instalar</button>
+        <button class="install-dismiss" id="installDismiss">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Cliente adicionado com sucesso!
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <h3>Agentes de IA</h3>
+                <p>Plataforma de agentes de IA especializados para todas as suas necessidades.</p>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Agentes de IA. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Agent data
+        const agents = {
+            planejamento: {
+                name: "Agente de Planejamento",
+                welcomeMessage: "Olá! Sou o Agente de Planejamento. Como posso ajudar você a planejar seu projeto hoje?",
+                responses: [
+                    "Para criar um plano eficaz, preciso entender seus objetivos principais. O que você deseja alcançar?",
+                    "Com base nas suas metas, sugiro dividir o projeto em 5 fases principais: pesquisa, concepção, desenvolvimento, implementação e avaliação.",
+                    "Recomendo estabelecer prazos realistas para cada fase. Você tem uma data limite para o projeto?",
+                    "Vou preparar um cronograma detalhado com marcos importantes. Isso atende às suas necessidades?"
+                ]
+            },
+            pesquisa: {
+                name: "Agente de Pesquisa",
+                welcomeMessage: "Olá! Sou o Agente de Pesquisa. Posso ajudar você a encontrar informações sobre qualquer tema. O que você gostaria de pesquisar?",
+                responses: [
+                    "Entendido. Vou coletar informações de fontes confiáveis sobre este tema. Alguma fonte específica que você prefira?",
+                    "Encontrei vários estudos e artigos relevantes. Posso resumir os principais pontos para você?",
+                    "Aqui estão as estatísticas mais recentes sobre o tema. Você precisa de dados de um período específico?",
+                    "Com base na pesquisa, identifiquei 5 tendências principais que podem ser relevantes para seu projeto. Deseja que eu aprofunde alguma delas?"
+                ]
+            },
+            criacao: {
+                name: "Agente de Criação",
+                welcomeMessage: "Olá! Sou o Agente de Criação. Posso ajudar você a desenvolver conteúdo original e de alta qualidade. Que tipo de conteúdo você precisa criar?",
+                responses: [
+                    "Para criar o conteúdo perfeito, preciso entender seu público-alvo. Para quem você está criando este material?",
+                    "Qual o tom de voz que você prefere: formal, informal, técnico, descontraído?",
+                    "Vou criar um rascunho inicial com base nas suas orientações. Por favor, revise e me diga se precisa de ajustes.",
+                    "Adicionei elementos visuais para tornar o conteúdo mais atraente. Isso está de acordo com suas expectativas?"
+                ]
+            },
+            analise: {
+                name: "Agente de Análise",
+                welcomeMessage: "Olá! Sou o Agente de Análise. Posso analisar dados complexos e gerar insights acionáveis. Que dados você gostaria que eu analisasse?",
+                responses: [
+                    "Para uma análise precisa, preciso dos dados brutos. Você pode compartilhá-los ou descrever sua origem?",
+                    "Identifiquei 3 padrões principais nos seus dados. Você gostaria que eu explicasse cada um deles?",
+                    "Com base na análise, aqui estão 5 recomendações estratégicas. Qual delas você considera mais prioritária?",
+                    "Preparei um relatório completo com visualizações dos dados. Deseja que eu destaque algum aspecto específico?"
+                ]
+            },
+            otimizacao: {
+                name: "Agente de Otimização",
+                welcomeMessage: "Olá! Sou o Agente de Otimização. Posso ajudar a melhorar seus processos e resultados. O que você gostaria de otimizar hoje?",
+                responses: [
+                    "Para otimizar efetivamente, preciso entender seu processo atual. Você pode descrevê-lo passo a passo?",
+                    "Identifiquei 3 pontos de gargalo no seu processo. Você concorda com esta avaliação?",
+                    "Sugiro implementar estas 5 melhorias para aumentar a eficiência. Qual delas você considera mais viável?",
+                    "Após a otimização, estimamos uma redução de 30% no tempo de execução. Você gostaria que eu detalhasse os cálculos?"
+                ]
+            },
+            suporte: {
+                name: "Agente de Suporte",
+                welcomeMessage: "Olá! Sou o Agente de Suporte. Estou aqui para ajudar com qualquer dúvida ou problema. Como posso ajudá-lo hoje?",
+                responses: [
+                    "Entendi sua dúvida. Para resolver isso, preciso de mais informações. Você pode me fornecer mais detalhes?",
+                    "Com base no que você descreveu, sugiro tentar esta solução. Funcionou para você?",
+                    "Se o problema persistir, podemos tentar uma abordagem alternativa. Você gostaria de explorar outras opções?",
+                    "Fico feliz em ter resolvido seu problema! Há mais alguma coisa em que eu possa ajudar hoje?"
+                ]
+            },
+            geral: {
+                name: "Assistente Virtual",
+                welcomeMessage: "Olá! Sou o Assistente Virtual. Como posso ajudá-lo hoje? Você pode conversar diretamente com qualquer um de nossos agentes especializados.",
+                responses: [
+                    "Posso conectar você com um de nossos agentes especializados. Com qual área você precisa de ajuda?",
+                    "Temos agentes para planejamento, pesquisa, criação, análise, otimização e suporte. Qual seria o mais adequado para você?",
+                    "Se preferir, posso responder diretamente à sua pergunta. O que você gostaria de saber?",
+                    "Estou aqui para ajudar! Por favor, me diga como posso auxiliá-lo hoje."
+                ]
+            }
+        };
+
+        // Client management
+        let clients = JSON.parse(localStorage.getItem('clients')) || [];
+        let currentClientId = localStorage.getItem('currentClientId') || null;
+        let currentAgent = 'geral';
+        let messageIndex = 0;
+        let deferredPrompt;
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            renderClientsList();
+            
+            if (currentClientId) {
+                const client = clients.find(c => c.id === currentClientId);
+                if (client) {
+                    selectClient(currentClientId);
+                }
+            }
+            
+            // Register service worker for PWA
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('data:text/javascript;base64,' + btoa(`
+                    self.addEventListener('install', event => {
+                        self.skipWaiting();
+                    });
+                    
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(self.clients.claim());
+                    });
+                    
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            fetch(event.request)
+                                .catch(() => caches.match(event.request))
+                        );
+                    });
+                `));
+            }
+            
+            // PWA install prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallPrompt();
+            });
+            
+            document.getElementById('installBtn').addEventListener('click', installApp);
+            document.getElementById('installDismiss').addEventListener('click', dismissInstallPrompt);
+        });
+
+        // Show install prompt
+        function showInstallPrompt() {
+            const installPrompt = document.getElementById('installPrompt');
+            installPrompt.classList.add('show');
+        }
+
+        // Install app
+        function installApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showNotification('Aplicativo instalado com sucesso!');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+            dismissInstallPrompt();
+        }
+
+        // Dismiss install prompt
+        function dismissInstallPrompt() {
+            const installPrompt = document.getElementById('installPrompt');
+            installPrompt.classList.remove('show');
+        }
+
+        // Add a new client
+        function addClient() {
+            const name = document.getElementById('clientName').value.trim();
+            const email = document.getElementById('clientEmail').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            
+            if (!name) {
+                showNotification('Por favor, informe o nome do cliente.', 'error');
+                return;
+            }
+            
+            const newClient = {
+                id: Date.now().toString(),
+                name,
+                email,
+                phone,
+                history: []
+            };
+            
+            clients.push(newClient);
+            localStorage.setItem('clients', JSON.stringify(clients));
+            
+            // Clear form
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientPhone').value = '';
+            
+            // Update UI
+            renderClientsList();
+            showNotification('Cliente adicionado com sucesso!');
+        }
+
+        // Render clients list
+        function renderClientsList() {
+            const clientsList = document.getElementById('clientsList');
+            clientsList.innerHTML = '';
+            
+            if (clients.length === 0) {
+                clientsList.innerHTML = '<li class="client-item">Nenhum cliente cadastrado</li>';
+                return;
+            }
+            
+            clients.forEach(client => {
+                const li = document.createElement('li');
+                li.className = `client-item ${client.id === currentClientId ? 'active' : ''}`;
+                li.innerHTML = `
+                    <span>${client.name}</span>
+                    <div class="client-item-actions">
+                        <button onclick="selectClient('${client.id}')"><i class="fas fa-eye"></i></button>
+                        <button onclick="deleteClient('${client.id}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                clientsList.appendChild(li);
+            });
+        }
+
+        // Select a client
+        function selectClient(clientId) {
+            currentClientId = clientId;
+            localStorage.setItem('currentClientId', clientId);
+            
+            const client = clients.find(c => c.id === clientId);
+            if (!client) return;
+            
+            // Update header
+            const currentClientDisplay = document.getElementById('currentClientDisplay');
+            currentClientDisplay.innerHTML = `
+                <i class="fas fa-user"></i>
+                <span>${client.name}</span>
+            `;
+            
+            // Update client details
+            const clientDetails = document.getElementById('clientDetails');
+            clientDetails.innerHTML = `
+                <div class="client-header">
+                    <h3>${client.name}</h3>
+                    <div class="client-header-info">
+                        <span>${client.email || 'E-mail não informado'}</span>
+                        <span>${client.phone || 'Telefone não informado'}</span>
+                    </div>
+                </div>
+                
+                <h4>Histórico de Conversas</h4>
+                <div class="client-history" id="clientHistory">
+                    ${renderClientHistory(client)}
+                </div>
+            `;
+            
+            // Update clients list
+            renderClientsList();
+        }
+
+        // Render client history
+        function renderClientHistory(client) {
+            if (!client.history || client.history.length === 0) {
+                return '<div class="empty-state"><p>Nenhuma conversa registrada para este cliente.</p></div>';
+            }
+            
+            return client.history.map(item => `
+                <div class="history-item">
+                    <div class="history-item-header">
+                        <span class="history-item-agent">${item.agent}</span>
+                        <span class="history-item-date">${new Date(item.timestamp).toLocaleString()}</span>
+                    </div>
+                    <div class="history-item-content">
+                        <p><strong>Você:</strong> ${item.userMessage}</p>
+                        <p><strong>Agente:</strong> ${item.agentResponse}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Delete a client
+        function deleteClient(clientId) {
+            if (confirm('Tem certeza que deseja excluir este cliente?')) {
+                clients = clients.filter(c => c.id !== clientId);
+                localStorage.setItem('clients', JSON.stringify(clients));
+                
+                if (currentClientId === clientId) {
+                    currentClientId = null;
+                    localStorage.removeItem('currentClientId');
+                    
+                    // Reset header
+                    const currentClientDisplay = document.getElementById('currentClientDisplay');
+                    currentClientDisplay.innerHTML = `
+                        <i class="fas fa-user"></i>
+                        <span>Nenhum cliente selecionado</span>
+                    `;
+                    
+                    // Reset client details
+                    const clientDetails = document.getElementById('clientDetails');
+                    clientDetails.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-user-circle"></i>
+                            <h3>Nenhum cliente selecionado</h3>
+                            <p>Selecione um cliente da lista para ver detalhes e histórico.</p>
+                        </div>
+                    `;
+                }
+                
+                renderClientsList();
+                showNotification('Cliente excluído com sucesso!');
+            }
+        }
+
+        // Open chat with specific agent
+        function openChat(agentType) {
+            if (!currentClientId) {
+                showNotification('Por favor, selecione um cliente primeiro.', 'error');
+                return;
+            }
+            
+            currentAgent = agentType;
+            messageIndex = 0;
+            
+            const chatModal = document.getElementById('chatModal');
+            const chatTitle = document.getElementById('chatTitle');
+            const chatBody = document.getElementById('chatBody');
+            
+            chatTitle.textContent = agents[agentType].name;
+            chatBody.innerHTML = '';
+            
+            // Add welcome message
+            addMessage(agents[agentType].welcomeMessage, 'agent');
+            
+            // Show chat modal
+            chatModal.classList.add('active');
+            
+            // Focus on input
+            setTimeout(() => {
+                document.getElementById('messageInput').focus();
+            }, 300);
+        }
+
+        // Close chat
+        function closeChat() {
+            const chatModal = document.getElementById('chatModal');
+            chatModal.classList.remove('active');
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const chatBody = document.getElementById('chatBody');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            messageDiv.textContent = text;
+            chatBody.appendChild(messageDiv);
+            
+            // Scroll to bottom
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Send message
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            
+            // Save to client history
+            if (currentClientId) {
+                const client = clients.find(c => c.id === currentClientId);
+                if (client && !client.history) {
+                    client.history = [];
+                }
+                
+                // Save for later (when we get the agent response)
+                const userMessage = message;
+                
+                // Clear input
+                messageInput.value = '';
+                
+                // Simulate agent response after a short delay
+                setTimeout(() => {
+                    const responses = agents[currentAgent].responses;
+                    const response = responses[messageIndex % responses.length];
+                    addMessage(response, 'agent');
+                    
+                    // Save conversation to client history
+                    if (client) {
+                        client.history.push({
+                            timestamp: new Date().toISOString(),
+                            agent: agents[currentAgent].name,
+                            userMessage: userMessage,
+                            agentResponse: response
+                        });
+                        
+                        localStorage.setItem('clients', JSON.stringify(clients));
+                        
+                        // Update client history display if visible
+                        if (document.getElementById('clientHistory')) {
+                            document.getElementById('clientHistory').innerHTML = renderClientHistory(client);
+                        }
+                    }
+                    
+                    messageIndex++;
+                }, 1000);
+            }
+        }
+
+        // Handle Enter key in message input
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.backgroundColor = type === 'error' ? 'var(--danger)' : 'var(--success)';
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
